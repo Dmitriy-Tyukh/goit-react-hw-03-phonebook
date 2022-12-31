@@ -11,6 +11,20 @@ class App extends Component {
     contacts: contacts,
     filter: '',
   };
+    componentDidMount() {
+        const localContacts = localStorage.getItem('contacts');
+        const parseContacts = JSON.parse(localContacts);
+        if (parseContacts) {
+          this.setState({ contacts: parseContacts });
+        }
+    }
+    
+  componentDidUpdate(_, prevState) {
+        const { contacts } = this.state;
+        if (prevState.contacts !== contacts) {
+           localStorage.setItem('contacts', JSON.stringify(contacts))
+        }
+    }
 
   handleFiltContacts = event => {
     const value = event.currentTarget.value;
